@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dior — JWS KICKS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="brand-page.css">
+</head>
+<body>
+<!-- =====================
+   LACI ALOLDAL
+   ===================== -->
+
+<!-- Teljes képernyős navigációs menü -->
+<div class="menu-overlay" id="menuOverlay">
+  <ul>
+    <li><a href="index.html">Főoldal <span class="num">01</span></a></li>
+    <li><a href="balenciaga.html">Balenciaga <span class="num">02</span></a></li>
+    <li><a href="nike.html">Nike <span class="num">03</span></a></li>
+    <li><a href="dior.html" class="active">Dior <span class="num">04</span></a></li>
+    <li><a href="lv.html">Louis Vuitton <span class="num">05</span></a></li>
+  </ul>
+  <div class="menu-socials"><a href="#">Instagram</a><a href="#">TikTok</a></div>
+</div>
+
+<!-- Felső navigációs sáv — fix, mindig látható -->
+<nav class="navbar">
+  <div class="nav-left">
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <a href="index.html" class="nav-logo"><img src="img/logo.png" alt="JWS Kicks"></a>
+  <div class="nav-right">
+    <span class="nav-icon">🔍</span>
+    <span class="nav-icon">👤</span>
+    <button class="nav-cart-btn">🛒</button>
+  </div>
+</nav>
+
+<!-- Márka neve az oldal tetején -->
+<div class="page-title">DIOR</div>
+<!-- Bolt neve a márka cím alatt -->
+<div class="brand-sub">JWS KICKS</div>
+
+<!-- Fő elrendezés: bal oldalt szűrők, jobb oldalt termékek -->
+<div class="shop-layout">
+  <!-- Bal oldali szűrő panel -->
+  <aside class="sidebar">
+        <div class="filter-top">⚙️ Szűrők</div>
+    <!-- Badge szerinti szűrő gombok -->
+    <div class="badge-filter-wrap">
+      <button class="badge-filter-btn active" data-filter="all">Összes</button>
+      <button class="badge-filter-btn" data-filter="badge-new">Új</button>
+      <button class="badge-filter-btn" data-filter="badge-sale">Sale</button>
+      <button class="badge-filter-btn" data-filter="badge-lim">Limitált</button>
+    </div>
+  </aside>
+
+  <!-- Termékek területe -->
+  <main class="products-area">
+    <!-- Termékszám és rendezés sor -->
+    <div class="products-top">
+      <span class="products-count">97 termék</span>
+      <div class="sort-wrap">
+        Rendezés:
+        <select class="sort-select">
+          <option>Kiemelt termékek</option>
+          <option>Ár: Alacsony → Magas</option>
+          <option>Ár: Magas → Alacsony</option>
+          <option>Legújabb</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Termék rács — 3 oszlopos -->
+    <div class="product-grid">
+
+      <div class="product-card">
+        <div class="product-img">
+          <img src="img/b30.png" alt="">
+          <span class="product-badge badge-new">Új</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Dior B30 Black</div>
+          <div class="product-price">402 711 Ft</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          <img src="img/b22.png" alt="">
+        </div>
+        <div class="product-info">
+          <div class="product-name">Dior B22 White Silver Fluo Green</div>
+          <div class="product-price">906 770 Ft</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          <img src="img/b25.png" alt="">
+          <span class="product-badge badge-sale">SALE</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Dior B25 Oblique Runner Sneaker Black Suede</div>
+          <div class="product-price"><span class="price-old">371500 Ft</span><span class="price-sale">299 999 Ft</span></div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          <img src="img/b23.png" alt="">
+          <span class="product-badge badge-lim">Limitált</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Dior B23 High Top Logo Oblique</div>
+          <div class="product-price">344 653 Ft</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          <img src="img/j1dior.png" alt="">
+        </div>
+        <div class="product-info">
+          <div class="product-name">Jordan 1 Retro High Dior</div>
+          <div class="product-price">2 561 241 Ft</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          <img src="img/b27.png" alt="">
+        </div>
+        <div class="product-info">
+          <div class="product-name">Dior B27 Low-Top White Calfskin</div>
+          <div class="product-price">442 982 Ft</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Egyszerű lábléc -->
+<div class="simple-footer">
+  <a href="index.html" class="footer-mini-logo"><img src="img/logo.png" alt="JWS Kicks"></a>
+  <span>© 2025 JWS KICKS</span>
+</div>
+
+<!-- JavaScript a külön fájlból töltődik be -->
+<script src="main.js"></script>
+</body>
+</html>
