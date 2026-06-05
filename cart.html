@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kosár — JWS KICKS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    body { padding-top: 56px; background: var(--white); }
+
+    .page-title {
+      text-align: center;
+      padding: 40px 20px 0;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 8vw, 80px);
+      letter-spacing: -1px;
+      color: var(--black);
+    }
+
+    .page-sub {
+      text-align: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 5px;
+      color: var(--red);
+      text-transform: uppercase;
+      padding: 8px 0 0;
+    }
+
+    .cart-wrap {
+      max-width: 1100px;
+      margin: 40px auto 80px;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .cart-items-panel { border-top: 2px solid var(--black); }
+
+    .cart-items-header {
+      display: grid;
+      grid-template-columns: 1fr 130px 110px 36px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 1fr 130px 110px 36px;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .item-left { display: flex; align-items: center; gap: 16px; }
+
+    .item-img {
+      width: 72px; height: 72px;
+      background: var(--gray);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; overflow: hidden;
+    }
+    .item-img img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+
+    .item-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px; letter-spacing: 1px;
+      padding: 2px 7px;
+      text-transform: uppercase;
+      display: inline-block; margin-bottom: 4px;
+    }
+    .item-badge.badge-new  { background: var(--black); color: var(--white); }
+    .item-badge.badge-sale { background: var(--red);   color: var(--white); }
+    .item-badge.badge-lim  { border: 1px solid #ccc;   color: var(--mid); }
+
+    .item-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px; font-weight: 600; color: var(--black);
+      line-height: 1.2; margin-bottom: 4px;
+    }
+    .item-unit-price {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px; color: var(--mid); letter-spacing: 1px;
+    }
+
+    .qty-ctrl { display: flex; align-items: center; border: 1px solid var(--border); width: fit-content; }
+    .qty-btn {
+      background: none; border: none; width: 30px; height: 30px;
+      cursor: pointer; font-size: 16px; color: var(--black);
+      font-family: 'Barlow Condensed', sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .qty-btn:hover { background: var(--gray); }
+    .qty-num {
+      font-family: 'Space Mono', monospace; font-size: 12px;
+      min-width: 32px; text-align: center; color: var(--black);
+    }
+
+    .item-total {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px; font-weight: 600; color: var(--black);
+    }
+    .item-total.is-sale { color: var(--red); }
+
+    .remove-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--mid); font-size: 18px; line-height: 1;
+      transition: color 0.15s; padding: 4px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .remove-btn:hover { color: var(--red); }
+
+    /* Empty state */
+    .empty-state {
+      padding: 80px 0 40px; text-align: center; display: none;
+    }
+    .empty-icon { font-size: 48px; margin-bottom: 16px; }
+    .empty-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 36px;
+      letter-spacing: 2px; color: var(--black); margin-bottom: 8px;
+    }
+    .empty-sub {
+      font-family: 'Space Mono', monospace; font-size: 9px;
+      letter-spacing: 2px; color: var(--mid); text-transform: uppercase; margin-bottom: 32px;
+    }
+    .empty-cta {
+      font-family: 'Bebas Neue', sans-serif; font-size: 16px;
+      letter-spacing: 3px; background: var(--red); color: var(--white);
+      padding: 12px 36px; border: none; cursor: pointer;
+      text-decoration: none; display: inline-block; transition: background 0.2s;
+    }
+    .empty-cta:hover { background: #c0000b; color: var(--white); }
+
+    /* Summary */
+    .summary-panel {
+      border-top: 2px solid var(--black); padding-top: 20px;
+      position: sticky; top: 76px;
+    }
+    .summary-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 28px;
+      letter-spacing: 2px; color: var(--black);
+      margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    }
+    .summary-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; font-family: 'Barlow Condensed', sans-serif; font-size: 15px;
+    }
+    .summary-row .s-label { color: var(--mid); }
+    .summary-row .s-val { font-weight: 600; color: var(--black); }
+    .summary-row .s-val.free { color: var(--red); }
+    .summary-row .s-val.discount { color: var(--red); }
+
+    .summary-total {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--black);
+    }
+    .summary-total .t-label { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; }
+    .summary-total .t-val { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 1px; color: var(--black); }
+
+    .promo-section { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .promo-label {
+      font-family: 'Space Mono', monospace; font-size: 9px;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--mid); margin-bottom: 8px;
+    }
+    .promo-row { display: flex; }
+    .promo-input {
+      flex: 1; border: 1px solid var(--border); border-right: none;
+      padding: 10px 14px; font-family: 'Space Mono', monospace; font-size: 10px;
+      letter-spacing: 1px; background: var(--white); color: var(--black);
+      outline: none; text-transform: uppercase;
+    }
+    .promo-input:focus { border-color: var(--black); }
+    .promo-input::placeholder { color: #ccc; }
+    .promo-apply {
+      background: var(--black); color: var(--white);
+      border: 1px solid var(--black); padding: 10px 16px;
+      font-family: 'Space Mono', monospace; font-size: 9px;
+      letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer; transition: background 0.2s; white-space: nowrap;
+    }
+    .promo-apply:hover { background: var(--red); border-color: var(--red); }
+    .promo-msg { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1px; margin-top: 6px; min-height: 14px; }
+    .promo-msg.ok  { color: #0a7c0a; }
+    .promo-msg.err { color: var(--red); }
+
+    .checkout-btn {
+      display: block; width: 100%; margin-top: 20px;
+      background: var(--red); color: var(--white); border: none;
+      padding: 16px; font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px; letter-spacing: 4px; cursor: pointer; transition: background 0.2s;
+    }
+    .checkout-btn:hover:not(:disabled) { background: #c0000b; }
+    .checkout-btn:disabled { background: #ccc; cursor: default; }
+    .checkout-note {
+      font-family: 'Space Mono', monospace; font-size: 8px;
+      letter-spacing: 1px; color: var(--mid); text-align: center;
+      margin-top: 10px; text-transform: uppercase;
+    }
+
+    .simple-footer {
+      background: var(--gray); border-top: 1px solid var(--border);
+      padding: 24px 40px; display: flex; justify-content: space-between;
+      align-items: center; font-family: 'Space Mono', monospace;
+      font-size: 9px; letter-spacing: 2px; color: var(--mid); text-transform: uppercase;
+    }
+    .footer-mini-logo img { height: 24px; width: auto; display: block; }
+
+    .nav-cart-count {
+      background: var(--red); color: var(--white);
+      font-family: 'Space Mono', monospace; font-size: 9px;
+      padding: 1px 5px; margin-left: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .cart-wrap { grid-template-columns: 1fr; padding: 0 16px; gap: 24px; }
+      .cart-items-header { display: none; }
+      .cart-item { grid-template-columns: 1fr auto auto auto; gap: 10px; }
+      .summary-panel { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="menu-overlay" id="menuOverlay">
+  <ul>
+    <li><a href="index.html">Főoldal <span class="num">01</span></a></li>
+    <li><a href="balenciaga.html">Balenciaga <span class="num">02</span></a></li>
+    <li><a href="nike.html">Nike <span class="num">03</span></a></li>
+    <li><a href="dior.html">Dior <span class="num">04</span></a></li>
+    <li><a href="lv.html">Louis Vuitton <span class="num">05</span></a></li>
+  </ul>
+  <div class="menu-socials"><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Kapcsolat</a></div>
+</div>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <a href="index.html" class="nav-logo"><img src="img/logo.png" alt="JWS Kicks"></a>
+  <div class="nav-right">
+    <span class="nav-icon">🔍</span>
+    <span class="nav-icon">👤</span>
+    <button class="nav-cart-btn" onclick="location.href='cart.html'">🛒 <span class="nav-cart-count" id="navCartCount" style="display:none"></span></button>
+  </div>
+</nav>
+
+<div class="page-title">KOSÁR</div>
+<div class="page-sub">JWS KICKS</div>
+
+<div class="cart-wrap">
+  <div>
+    <div class="cart-items-panel">
+      <div class="cart-items-header">
+        <span>Termék</span>
+        <span>Darabszám</span>
+        <span>Összeg</span>
+        <span></span>
+      </div>
+      <div id="cartItemsList"></div>
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">👟</div>
+        <div class="empty-title">A KOSÁR ÜRES</div>
+        <div class="empty-sub">Még nincs termék hozzáadva</div>
+        <a href="index.html" class="empty-cta">Vásárolj Most →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-panel">
+    <div class="summary-title">ÖSSZESÍTŐ</div>
+    <div class="summary-row">
+      <span class="s-label">Részösszeg</span>
+      <span class="s-val" id="sSubtotal">—</span>
+    </div>
+    <div class="summary-row">
+      <span class="s-label">Szállítás</span>
+      <span class="s-val" id="sShipping">—</span>
+    </div>
+    <div class="summary-row" id="sDiscountRow" style="display:none">
+      <span class="s-label">Kedvezmény</span>
+      <span class="s-val discount" id="sDiscount">—</span>
+    </div>
+    <div class="summary-total">
+      <span class="t-label">VÉGÖSSZEG</span>
+      <span class="t-val" id="sTotal">—</span>
+    </div>
+    <div class="promo-section">
+      <div class="promo-label">Kuponkód</div>
+      <div class="promo-row">
+        <input class="promo-input" id="promoInput" type="text" placeholder="ADD MEG...">
+        <button class="promo-apply" onclick="applyPromo()">Beváltás</button>
+      </div>
+      <div class="promo-msg" id="promoMsg"></div>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn" onclick="checkout()">MEGRENDELÉS →</button>
+    <div class="checkout-note">🔒 Biztonságos fizetés · 100% eredeti garancia</div>
+  </div>
+</div>
+
+<div class="simple-footer">
+  <a href="index.html" class="footer-mini-logo"><img src="img/logo.png" alt="JWS Kicks"></a>
+  <span>© 2025 Miskolci SZC Kandó Kálmán Informatikai Technikum — Minden jog fenntartva</span>
+</div>
+
+<script src="cart.js"></script>
+<script>
+  const hb = document.getElementById('hamburger');
+  const mo = document.getElementById('menuOverlay');
+  hb.addEventListener('click', () => { hb.classList.toggle('open'); mo.classList.toggle('open'); });
+  mo.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hb.classList.remove('open'); mo.classList.remove('open'); }));
+</script>
+</body>
+</html>
