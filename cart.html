@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Space+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="shared.css">
   <style>
-    body { padding-top: 56px; background: var(--white); }
+    body { padding-top: 72px; background: var(--white); }
 
     .page-title {
       text-align: center;
@@ -143,7 +143,7 @@
     /* Summary */
     .summary-panel {
       border-top: 2px solid var(--black); padding-top: 20px;
-      position: sticky; top: 76px;
+      position: sticky; top: 92px;
     }
     .summary-title {
       font-family: 'Bebas Neue', sans-serif; font-size: 28px;
@@ -245,10 +245,10 @@
   <div class="nav-left">
     <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   </div>
-  <a href="index.html" class="nav-logo"><img src="img/logo.png" alt="JWS Kicks"></a>
+  <a href="index.html" class="nav-logo">JWS <em>—</em> KICKS</a>
   <div class="nav-right">
-    <span class="nav-icon">🔍</span>
-    <span class="nav-icon">👤</span>
+    <button class="nav-icon" data-type="search" onclick="jwsOpenSearch()" aria-label="Keresés"><span style="font-size:20px;line-height:1;">🔍</span><span class="nav-icon-label">Keresés</span></button>
+    <button class="nav-icon" data-type="account" onclick="jwsOpenAccount()" aria-label="Fiók" style="position:relative;"><span style="font-size:20px;line-height:1;">👤</span><span class="nav-icon-label">Fiók</span><span class="jws-acc-dot"></span></button>
     <button class="nav-cart-btn" onclick="location.href='cart.html'">🛒 <span class="nav-cart-count" id="navCartCount" style="display:none"></span></button>
   </div>
 </nav>
@@ -311,6 +311,8 @@
   <span>© 2025 Miskolci SZC Kandó Kálmán Informatikai Technikum — Minden jog fenntartva</span>
 </div>
 
+<script src="search.js"></script>
+<script src="account.js"></script>
 <script src="cart.js"></script>
 <script>
   const hb = document.getElementById('hamburger');

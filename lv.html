@@ -30,18 +30,18 @@
   <div class="nav-left">
     <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   </div>
-  <a href="index.html" class="nav-logo"><img src="img/logo.png" alt="JWS Kicks"></a>
+  <a href="index.html" class="nav-logo">JWS <em>—</em> KICKS</a>
   <div class="nav-right">
-    <span class="nav-icon">🔍</span>
-    <span class="nav-icon">👤</span>
+    <button class="nav-icon" data-type="search" onclick="jwsOpenSearch()" aria-label="Keresés"><span style="font-size:20px;line-height:1;">🔍</span><span class="nav-icon-label">Keresés</span></button>
+    <button class="nav-icon" data-type="account" onclick="jwsOpenAccount()" aria-label="Fiók" style="position:relative;"><span style="font-size:20px;line-height:1;">👤</span><span class="nav-icon-label">Fiók</span><span class="jws-acc-dot"></span></button>
     <button class="nav-cart-btn">🛒</button>
   </div>
 </nav>
 
-<!-- Márka neve az oldal tetején -->
-<div class="page-title">LOUIS VUITTON</div>
-<!-- Bolt neve a márka cím alatt -->
-<div class="brand-sub">JWS KICKS</div>
+<div class="page-header-wrap">
+  <div class="page-title">LOUIS VUITTON</div>
+  <div class="brand-sub">JWS KICKS</div>
+</div>
 
 <!-- Fő elrendezés: bal oldalt szűrők, jobb oldalt termékek -->
 <div class="shop-layout">
@@ -151,6 +151,8 @@
 </div>
 
 <!-- JavaScript a külön fájlból töltődik be -->
+<script src="search.js"></script>
+<script src="account.js"></script>
 <script src="main.js"></script>
 </body>
 </html>

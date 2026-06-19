@@ -1,29 +1,51 @@
-/* =============================================
-   CART.JS — JWS KICKS
-   ============================================= */
+/* === CART.JS — JWS KICKS === */
 
 const SHIPPING_COST   = 1990;
 const FREE_SHIP_ABOVE = 50000;
 const PROMO_CODES = {
-  'HH': 0.32,
-  'JEWS':    0.45,
-  'LACIMACI':      0.60,
+  'HH':   0.32,
+  'JEWS': 0.45,
+  'SODI': 0.60,
 };
 
 let activeDiscount = 0;
 
-function getCart() { return JSON.parse(localStorage.getItem('jwsCart') || '[]'); }
-function saveCart(c) { localStorage.setItem('jwsCart', JSON.stringify(c)); }
+/* KOSÁR — SEGÉDFÜGGVÉNYEK */
+function getCart() {
+  try { return JSON.parse(localStorage.getItem('jwsCart') || '[]'); }
+  catch(e) { return []; }
+}
+function saveCart(c) {
+  try { localStorage.setItem('jwsCart', JSON.stringify(c)); }
+  catch(e) { console.warn('Kosár mentési hiba:', e); }
+}
 function fmt(n) { return n.toLocaleString('hu-HU') + ' Ft'; }
 
+
+/* NAV KOSÁR DARABSZÁM FRISSÍTÉSE */
 function updateNavCount() {
   const total = getCart().reduce((s, i) => s + i.qty, 0);
-  document.querySelectorAll('.nav-cart-count').forEach(el => {
-    el.textContent = total;
-    el.style.display = total > 0 ? 'inline' : 'none';
+  document.querySelectorAll('.nav-cart-btn').forEach(btn => {
+    let countEl = btn.querySelector('.nav-cart-count');
+    if (!countEl) {
+      countEl = document.createElement('span');
+      countEl.className = 'nav-cart-count';
+      countEl.style.cssText = `
+        background:var(--red);color:#fff;
+        font-family:"Space Mono",monospace;font-size:10px;font-weight:bold;
+        min-width:20px;height:20px;border-radius:50%;
+        display:inline-flex;align-items:center;justify-content:center;
+        margin-left:4px;
+      `;
+      btn.appendChild(countEl);
+    }
+    countEl.textContent = total;
+    countEl.style.display = total > 0 ? 'inline-flex' : 'none';
   });
 }
 
+
+/* KOSÁR TARTALMÁNAK KIRAJZOLÁSA */
 function render() {
   const cart  = getCart();
   const list  = document.getElementById('cartItemsList');
@@ -49,9 +71,7 @@ function render() {
     const lineTotal = dispPrice * item.qty;
     const isSale    = !!item.salePrice;
 
-    const imgHtml = item.img
-      ? `<img src="${item.img}" alt="${item.name}">`
-      : '';
+    const imgHtml = item.img ? `<img src="${item.img}" alt="${item.name}">` : '';
 
     const badgeHtml = item.badge
       ? `<span class="item-badge ${item.badge}">${item.badgeLabel || ''}</span><br>`
@@ -59,6 +79,10 @@ function render() {
 
     const oldPriceHtml = isSale
       ? `<span style="font-size:11px;color:#bbb;text-decoration:line-through;margin-right:4px;">${fmt(item.price)}</span>`
+      : '';
+
+    const sizeHtml = item.size
+      ? `<span style="font-family:'Space Mono',monospace;font-size:9px;color:#888;letter-spacing:1px;margin-top:2px;display:block;">MÉRET: ${item.size}</span>`
       : '';
 
     const row = document.createElement('div');
@@ -70,6 +94,7 @@ function render() {
         <div>
           ${badgeHtml}
           <div class="item-name">${item.name}</div>
+          ${sizeHtml}
           <div class="item-unit-price">${oldPriceHtml}${fmt(dispPrice)} / db</div>
         </div>
       </div>
@@ -84,7 +109,6 @@ function render() {
     list.appendChild(row);
   });
 
-  // Eseménykezelők — index alapján, nem inline onclick
   list.querySelectorAll('.qty-minus').forEach(btn => {
     btn.addEventListener('click', () => changeQty(+btn.dataset.index, -1));
   });
@@ -100,6 +124,8 @@ function render() {
   updateNavCount();
 }
 
+
+/* ÖSSZESÍTŐ PANEL FRISSÍTÉSE */
 function updateSummary(subtotal) {
   const shipping = subtotal === 0 ? 0 : (subtotal >= FREE_SHIP_ABOVE ? 0 : SHIPPING_COST);
   const discount = Math.round(subtotal * activeDiscount);
@@ -114,9 +140,9 @@ function updateSummary(subtotal) {
   if (elSub)  elSub.textContent = subtotal > 0 ? fmt(subtotal) : '—';
 
   if (elShip) {
-    if (subtotal === 0)   { elShip.textContent = '—'; elShip.classList.remove('free'); }
-    else if (shipping===0){ elShip.textContent = 'Ingyenes 🎉'; elShip.classList.add('free'); }
-    else                  { elShip.textContent = fmt(shipping); elShip.classList.remove('free'); }
+    if (subtotal === 0)    { elShip.textContent = '—'; elShip.classList.remove('free'); }
+    else if (shipping===0) { elShip.textContent = 'Ingyenes 🎉'; elShip.classList.add('free'); }
+    else                   { elShip.textContent = fmt(shipping); elShip.classList.remove('free'); }
   }
 
   if (elDiscRow) elDiscRow.style.display = discount > 0 ? 'flex' : 'none';
@@ -124,6 +150,8 @@ function updateSummary(subtotal) {
   if (elTotal)   elTotal.textContent = subtotal > 0 ? fmt(total) : '—';
 }
 
+
+/* MENNYISÉG MÓDOSÍTÁSA */
 function changeQty(index, delta) {
   const cart = getCart();
   if (!cart[index]) return;
@@ -133,6 +161,8 @@ function changeQty(index, delta) {
   render();
 }
 
+
+/* TERMÉK ELTÁVOLÍTÁSA */
 function removeItem(index) {
   const cart = getCart();
   cart.splice(index, 1);
@@ -140,6 +170,8 @@ function removeItem(index) {
   render();
 }
 
+
+/* KUPONKÓD BEVÁLTÁSA */
 function applyPromo() {
   const input = document.getElementById('promoInput');
   const msg   = document.getElementById('promoMsg');
@@ -154,8 +186,19 @@ function applyPromo() {
   }
 }
 
+const promoInput = document.getElementById('promoInput');
+if (promoInput) {
+  promoInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') applyPromo();
+  });
+}
+
+
+/* MEGRENDELÉS GOMB */
 function checkout() {
   alert('Köszönjük a megrendelést! 🎉\n\nItt csatlakoztasd a saját fizetési rendszeredet.');
 }
 
+
+/* INICIALIZÁLÁS */
 render();

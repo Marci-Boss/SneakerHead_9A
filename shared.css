@@ -1,11 +1,7 @@
-/* ===== SHARED.CSS — JWS KICKS =====
-   Ez a fájl minden oldalon betöltődik.
-   Tartalmazza a navigációt és a menüt.
-   ===================================== */
-/* Alapértelmezett margók és padding törlése minden elemről */
+/* === SHARED.CSS — JWS KICKS — minden oldalon betöltődik === */
+
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* Globális színváltozók — itt változtasd a színeket */
 :root {
   --black:  #0a0a0a;
   --white:  #ffffff;
@@ -15,7 +11,6 @@
   --mid:    #888;
 }
 
-/* Alap betűtípus és háttérszín az egész oldalra */
 body {
   font-family: 'Barlow Condensed', sans-serif;
   color: var(--black);
@@ -23,18 +18,15 @@ body {
   overflow-x: hidden;
 }
 
-/* Linkek alapstílusa — nincs aláhúzás, örökli a színt */
 a { text-decoration: none; color: inherit; }
 
-/* ===== NAVIGÁCIÓ =====
-   Fix fekete sáv az oldal tetején
-   ========================= */
-/* */
+
+/* NAVIGÁCIÓ — fix fekete sáv az oldal tetején */
 .navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  height: 56px;
+  height: 72px;
   background: var(--black);
   display: flex;
   align-items: center;
@@ -44,8 +36,9 @@ a { text-decoration: none; color: inherit; }
 
 .nav-logo {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 20px;
-  letter-spacing: 6px;
+  font-size: 26px;
+  letter-spacing: 5px;
+  white-space: nowrap;
   color: var(--white);
   position: absolute;
   left: 50%;
@@ -55,64 +48,84 @@ a { text-decoration: none; color: inherit; }
 .nav-logo em { color: var(--red); font-style: normal; }
 
 .nav-left  { display: flex; align-items: center; gap: 8px; }
-.nav-right { display: flex; align-items: center; gap: 20px; }
+.nav-right { display: flex; align-items: center; gap: 28px; }
 
-/* Hamburger gomb — három vízszintes vonal */
+
+
+
+/* HAMBURGER GOMB — három vonal, X-re változik nyitáskor */
 .hamburger {
   background: none;
   border: none;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   padding: 4px;
 }
 
 .hamburger span {
   display: block;
-  height: 1px;
+  height: 1.5px;
   background: var(--white);
   transition: all 0.3s;
 }
 
-.hamburger span:nth-child(1) { width: 22px; }
-.hamburger span:nth-child(2) { width: 14px; }
-.hamburger span:nth-child(3) { width: 22px; }
+.hamburger span:nth-child(1) { width: 28px; }
+.hamburger span:nth-child(2) { width: 18px; }
+.hamburger span:nth-child(3) { width: 28px; }
 
-/* Hamburger animáció nyitott állapotban — X alakra változik */
-.hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); width: 22px; }
+.hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); width: 28px; }
 .hamburger.open span:nth-child(2) { opacity: 0; }
-.hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); width: 22px; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); width: 28px; }
 
-/* Jobb oldali ikonok: kereső, profil, kosár */
+/* NAV IKONOK — feliratos változat */
 .nav-icon {
-  color: var(--white);
-  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
   cursor: pointer;
   opacity: 0.7;
   transition: opacity 0.2s;
+  color: var(--white);
+  font-size: 20px;
+  background: none;
+  border: none;
+  padding: 0;
 }
 
 .nav-icon:hover { opacity: 1; }
 
+.nav-icon-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  line-height: 1;
+}
+
 .nav-cart-btn {
   background: none;
   border: none;
-  color: var(--white);
-  font-size: 18px;
   cursor: pointer;
   opacity: 0.7;
   transition: opacity 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: var(--white);
+  font-size: 20px;
+  padding: 0;
+  position: relative;
 }
 
 .nav-cart-btn:hover { opacity: 1; }
 
-/* ===== MENÜ =====
-   Teljes képernyős overlay menü
-   Hamburger gombra nyílik ki
-   ================== */
-/* */
-/* Menü overlay — alapból elrejtve, hamburger gombra jelenik meg */
+
+/* TELJES KÉPERNYŐS MENÜ — hamburger gombra nyílik */
 .menu-overlay {
   position: fixed;
   inset: 0;
@@ -127,7 +140,6 @@ a { text-decoration: none; color: inherit; }
   pointer-events: none;
 }
 
-/* Menü nyitott állapota */
 .menu-overlay.open {
   clip-path: inset(0 0 0% 0);
   pointer-events: all;
@@ -160,7 +172,6 @@ a { text-decoration: none; color: inherit; }
   letter-spacing: 3px;
 }
 
-/* Social media linkek a menü alján */
 .menu-socials { display: flex; gap: 24px; margin-top: 36px; }
 
 .menu-socials a {
@@ -173,9 +184,3 @@ a { text-decoration: none; color: inherit; }
 }
 
 .menu-socials a:hover { color: var(--white); }
-
-/* ===== LOGÓ =====
-   A logó kép mérete a navigációban
-   ================== */
-/* */
-.nav-logo img { height: 32px; width: auto; display: block; }

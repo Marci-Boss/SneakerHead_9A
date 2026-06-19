@@ -30,18 +30,18 @@
   <div class="nav-left">
     <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   </div>
-  <a href="index.html" class="nav-logo"><img src="img/logo.png" alt="JWS Kicks"></a>
+  <a href="index.html" class="nav-logo">JWS <em>—</em> KICKS</a>
   <div class="nav-right">
-    <span class="nav-icon">🔍</span>
-    <span class="nav-icon">👤</span>
+    <button class="nav-icon" data-type="search" onclick="jwsOpenSearch()" aria-label="Keresés"><span style="font-size:20px;line-height:1;">🔍</span><span class="nav-icon-label">Keresés</span></button>
+    <button class="nav-icon" data-type="account" onclick="jwsOpenAccount()" aria-label="Fiók" style="position:relative;"><span style="font-size:20px;line-height:1;">👤</span><span class="nav-icon-label">Fiók</span><span class="jws-acc-dot"></span></button>
     <button class="nav-cart-btn">🛒</button>
   </div>
 </nav>
 
-<!-- Márka neve az oldal tetején -->
-<div class="page-title">NIKE</div>
-<!-- Bolt neve a márka cím alatt -->
-<div class="brand-sub">JWS KICKS</div>
+<div class="page-header-wrap">
+  <div class="page-title">NIKE</div>
+  <div class="brand-sub">JWS KICKS</div>
+</div>
 
 <!-- Fő elrendezés: bal oldalt szűrők, jobb oldalt termékek -->
 <div class="shop-layout">
@@ -78,7 +78,7 @@
 
       <div class="product-card">
         <div class="product-img">
-          <img src="./img/OIP.png" alt="Nike Kobe 5 Protro"> <!-- KEPET IDE -->
+          <img src="./img/OIP.png" alt="Nike Kobe 5 Protro">
           <span class="product-badge badge-new">Új</span>
         </div>
         <div class="product-info">
@@ -89,7 +89,7 @@
 
       <div class="product-card">
         <div class="product-img">
-          <img src="./img/Nike_low_white.png" alt="Nike Air Force 1 Low '07"> <!-- KEPET IDE -->
+          <img src="./img/Nike_low_white.png" alt="Nike Air Force 1 Low '07">
         </div>
         <div class="product-info">
           <div class="product-name">Nike Air Force 1 Low '07</div>
@@ -99,7 +99,7 @@
 
       <div class="product-card">
         <div class="product-img">
-          <img src="./img/Nike_p6000.png" alt="Nike P-6000"> <!-- KEPET IDE -->
+          <img src="./img/Nike_p6000.png" alt="Nike P-6000">
           <span class="product-badge badge-sale">SALE</span>
         </div>
         <div class="product-info">
@@ -110,7 +110,7 @@
 
       <div class="product-card">
         <div class="product-img">
-          <img src="./img/Nike_Vomero.png" alt="Nike Zoom Vomero 5"> <!-- KEPET IDE -->
+          <img src="./img/Nike_Vomero.png" alt="Nike Zoom Vomero 5">
           <span class="product-badge badge-lim">Limitált</span>
         </div>
         <div class="product-info">
@@ -121,7 +121,7 @@
 
       <div class="product-card">
         <div class="product-img">
-          <img src="./img/Nike_dunk.png" alt="Nike Dunk Low Retro"> <!-- KEPET IDE -->
+          <img src="./img/Nike_dunk.png" alt="Nike Dunk Low Retro">
         </div>
         <div class="product-info"> 
           <div class="product-name">Nike Dunk Low Retro</div>
@@ -131,7 +131,7 @@
 
       <div class="product-card">
         <div class="product-img">
-          <img src="./img/Nike_blazer.png" alt="Nike Blazer Mid 77 Vintage"> <!-- KEPET IDE -->
+          <img src="./img/Nike_blazer.png" alt="Nike Blazer Mid 77 Vintage">
           <span class="product-badge badge-new">Új</span>
         </div>
         <div class="product-info">
@@ -151,6 +151,8 @@
 </div>
 
 <!-- JavaScript a külön fájlból töltődik be -->
+<script src="search.js"></script>
+<script src="account.js"></script>
 <script src="main.js"></script>
 </body>
 </html>
